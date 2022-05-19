@@ -1,0 +1,60 @@
+services:
+  api:
+    build:
+      context: ./images/python
+    image: sistema_de_autenticacao
+    container_name: sistema_de_autenticacao_container
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - ./project:/app
+    expose:
+      - 8000
+    depends_on:
+      - mongo
+      - redis
+
+  nginx:
+    build:
+      context: ./images/nginx
+    image: nginx_sistema_de_autenticacao
+    container_name: nginx_sistema_de_autenticacao_container
+    volumes:
+      - ./project:/app
+    ports:
+      - 80:80
+    depends_on:
+      - api
+
+  mongo:
+    image: mongo:4.4.14
+    container_name: mongo_sistema_autenticacao_container
+    env_file: images/env/mogodb.env
+    ports:
+      - "27017:27017"
+    volumes:
+      - dbdata:/data/db
+
+  mongo-express:
+    image: mongo-express:0.54.0
+    container_name: mongo_express_sistema_autenticacao_container
+    ports:
+      - 8081:8081
+    env_file: images/env/mogoexpress.env
+    links:
+      - mongo
+
+  redis:
+    image: redis:6.2-alpine
+    ports:
+      - "6379:6379"
+
+  redis-commander:
+    container_name: redis_commander_sistema_autenticacao_dev_container
+    image: rediscommander/redis-commander:latest
+    environment:
+      - REDIS_HOSTS=local:redis:6379
+    ports:
+      - "8082:8081"
+
+volumes:
+  dbdata:

@@ -1,0 +1,12 @@
+#!/bin/sh
+set -e  # Configure shell so that if one command fails, it exits
+
+FILE=./project/.env
+
+if test -f $FILE; then
+  echo ""
+else
+  cp ./images/python/env/.env-example ./project/.env
+fi
+
+docker-compose -f docker-compose-dev.yml up -d

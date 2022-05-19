@@ -1,0 +1,23 @@
+[run]
+source = .
+omit =
+    ./manage.py
+    ./config/*
+    ./**/__init__.py
+    ./**/migrations/*
+    ./**/urls.py
+    ./**/admin.py
+    ./**/apps.py
+    ./**/Tests/*
+
+[report]
+fail_under = 100
+omit =
+    ./manage.py
+    ./config/*
+    ./**/__init__.py
+    ./**/migrations/*
+    ./**/urls.py
+    ./**/admin.py
+    ./**/apps.py
+    ./**/Tests/*

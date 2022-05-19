@@ -1,0 +1,6 @@
+#!/bin/sh
+set -e  # Configure shell so that if one command fails, it exits
+docker-compose exec api coverage erase
+docker-compose exec api coverage run manage.py test apps --pattern="*Test.py"
+docker-compose exec api coverage report
+docker-compose exec api coverage html

@@ -1,0 +1,3 @@
+#!/bin/sh
+set -e  # Configure shell so that if one command fails, it exits
+docker-compose up -d
